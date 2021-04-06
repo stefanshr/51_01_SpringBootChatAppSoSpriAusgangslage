@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import ch.bbw.pr.sospri.member.MemberService;
 import ch.bbw.pr.sospri.member.RegisterMember;
+
+import java.util.Locale;
+
 /**
  * RegisterController
  * @author Peter Rutschmann
@@ -30,7 +33,10 @@ public class RegisterController {
 		System.out.println("postRequestRegistMembers: registerMember");
 		System.out.println(registerMember);
 
-		memberservice.RegisterUser(registerMember);
+		if(!memberservice.RegisterUser(registerMember)){
+			registerMember.setConfirmation("User: "+registerMember.getPrename().toLowerCase()+"."+registerMember.getLastname().toLowerCase()+" already exists");
+			return "register";
+		}
 		
 		return "registerconfirmed";
 	}
