@@ -2,97 +2,168 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-  <title>SoSpri-the-page</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/pr_bbw.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-  <script>
-    $(function() {
-      $("#includedHeader").load("fragments/header.html");
-      $("#includedFooter").load("fragments/footer.html");
-    });
-  </script>
+    <title>SoSpri-the-page</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/pr_bbw.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/zxcvbn/4.2.0/zxcvbn.js"></script>
+
 </head>
 
 <body>
-  <div id="includedHeader"></div>
-  <section>
+<div id="includedHeader"></div>
+<section>
     <div class="container">
-      <div class="row">
-        <div class="col-sm-12">
-          <div>
-            <h4 style="margin-top: 30px">Register</h4>
-            <div class="row">
-              <div class=" col-lg-8 col-lg-offset-2">
-                <form id="register-form" method="post" action="" role="form" th:action="@{/get-register}" th:object="${registerMember}">
-                  <div class="messages"></div>
-                  <div class="controls">
+        <div class="row">
+            <div class="col-sm-12">
+                <div>
+                    <h4 style="margin-top: 30px">Register</h4>
                     <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="form_name">Firstname *</label>
-                          <input id="form_name" type="text" name="name" class="form-control" placeholder="Please enter your firstname *" required="required" data-error="Firstname is required." th:field="*{prename}">
-                          <div class="help-block with-errors"></div>
+                        <div class=" col-lg-8 col-lg-offset-2">
+                            <form id="register-form" method="post" action="" role="form" th:action="@{/get-register}"
+                                  th:object="${registerMember}">
+                                <div class="messages"></div>
+                                <div class="controls">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="form_name">Firstname *</label>
+                                                <input id="form_name" type="text" name="name" class="form-control"
+                                                       placeholder="Please enter your firstname *" required="required"
+                                                       data-error="Firstname is required." th:field="*{prename}">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="form_lastname">Lastname *</label>
+                                                <input id="form_lastname"
+                                                       type="text"
+                                                       name="surname"
+                                                       class="form-control"
+                                                       placeholder="Please enter your lastname *"
+                                                       required="required"
+                                                       data-error="Lastname is required."
+                                                       th:field="*{lastname}">
+
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="form_password">Password *</label>
+                                                <section><input
+                                                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                                                        title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
+                                                        id="form_password" type="password" name="password"
+                                                        class="form-control" placeholder="Please enter your password *"
+                                                        required="required"
+                                                        data-error="Valid password is required." th:field="*{password}">
+                                                    <div class="help-block with-errors"></div>
+                                                    <meter max="4" id="password-strength-meter"></meter>
+                                                    <p id="password-strength-text"></p>
+                                                </section>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="form_confirmation">Password
+                                                    confirmation *</label> <input id="form_confirmation" type="password"
+                                                                                  name="confirmation"
+                                                                                  class="form-control"
+                                                                                  placeholder="Please enter your password*"
+                                                                                  required="required"
+                                                                                  data-error="Valid confirmation is required."
+                                                                                  th:field="*{confirmation}">
+                                                <div class="help-block with-errors"></div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <input type="submit" class="btn btn-success btn-send" value="Register">
+                                                <p></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+
+                                            <b th:if="${#fields.hasErrors('prename')}" th:errors="*{prename}">Prename
+                                                Error</b>
+
+
+                                            <b th:text="*{confirmation}" style="color:red"></b>
+
+
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p>Password must contain at least:</p>
+                                            <ul>
+                                                <li>one number</li>
+                                                <li>one uppercase</li>
+                                                <li>lowercase letter,</li>
+                                                <li>8 or more characters</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="form_lastname">Lastname *</label> <input id="form_lastname" type="text" name="surname" class="form-control" placeholder="Please enter your lastname *" required="required" data-error="Lastname is required."
-                            th:field="*{lastname}">
-                          <div class="help-block with-errors"></div>
-                        </div>
-                      </div>
                     </div>
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="form_password">Password *</label> <input id="form_password" type="password" name="password" class="form-control" placeholder="Please enter your password *" required="required"
-                            data-error="Valid password is required." th:field="*{password}">
-                          <div class="help-block with-errors"></div>
-                        </div>
-                      </div>
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label for="form_confirmation">Passwort
-                            confirmation *</label> <input id="form_confirmation" type="password" name="confirmation" class="form-control" placeholder="Please enter your password*" required="required" data-error="Valid confirmation is required."
-                            th:field="*{confirmation}">
-                          <div class="help-block with-errors"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                        <input type="submit" class="btn btn-success btn-send" value="Register">
-                        <p></p>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-md-12">
-                      
-                        <!-- Fehlermeldungen... 
-                        <b th:if="${#fields.hasErrors('prename')}" th:errors="*{prename}">Prename Error</b> 
-                        ---  hier eränzen
-                        
-                        <b th:text="*{message}"></b>
-                         -->
-                         
-                      </div>
-                    </div> 
-                  </div>
-                </form>
-              </div>
+                </div>
+                <div style="height: 200px"></div>
             </div>
-          </div>
-          <div style="height: 200px"></div>
         </div>
-      </div>
     </div>
-  </section>
+</section>
 
-  <div id="includedFooter"></div>
+<div id="includedFooter"></div>
+<script>
+    $(function () {
+        $("#includedHeader").load("fragments/header.html");
+        $("#includedFooter").load("fragments/footer.html");
+    });
+
+    var strength = {
+        0: "Worst ☹",
+        1: "Bad ☹",
+        2: "Weak ☹",
+        3: "Good ☺",
+        4: "Strong ☻"
+    }
+
+    var password = document.getElementById('form_password');
+    var meter = document.getElementById('password-strength-meter');
+    var text = document.getElementById('password-strength-text');
+
+    console.log(password);
+    console.log(meter);
+
+    password.addEventListener('input', function () {
+
+        var val = password.value;
+        var result = zxcvbn(val);
+        console.log(password.value);
+
+        // Update the password strength meter
+        meter.value = result.score;
+
+        // Update the text indicator
+        if (val !== "") {
+            text.innerHTML = "Strength: " + "<strong>" + strength[result.score] + "</strong>" + "<span class='feedback'>" + result.feedback.warning + " " + result.feedback.suggestions + "</span";
+        } else {
+            text.innerHTML = "";
+        }
+    });
+</script>
 </body>
-
 </html>
