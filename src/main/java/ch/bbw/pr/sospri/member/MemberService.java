@@ -1,9 +1,16 @@
 package ch.bbw.pr.sospri.member;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.security.SecureRandom;
+import java.util.Collection;
 import java.util.Locale;
 
 /**
@@ -17,7 +24,7 @@ import java.util.Locale;
  */
 @Service
 @Transactional
-public class MemberService {
+public class MemberService implements UserDetailsService {
     @Autowired
     private MemberRepository repository;
 
@@ -62,12 +69,21 @@ public class MemberService {
         return null;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Member member = getByUserName(username);
+        return MemberToUserDetailsMapper.toUserDetails(member);
+    }
+
     public boolean RegisterUser(RegisterMember member) {
 
         Member newMember = new Member();
         newMember.setPrename(member.getPrename());
         newMember.setLastname(member.getLastname());
-        newMember.setPassword(member.getPassword());
+
+        BCryptPasswordEncoder bCPE = new BCryptPasswordEncoder(10, new SecureRandom());
+
+        newMember.setPassword(bCPE.encode(member.getPassword()));
         newMember.setUsername(member.getPrename().toLowerCase() + "." + member.getLastname().toLowerCase());
         newMember.setAuthority("member");
         for (Member m : repository.findAll()) {

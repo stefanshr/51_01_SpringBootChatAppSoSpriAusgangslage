@@ -1,10 +1,13 @@
 package ch.bbw.pr.sospri;
 
+import java.security.Principal;
 import java.util.Date;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,7 +44,7 @@ public class ChannelsController {
 	}
 
 	@PostMapping("/add-message")
-	public String postRequestChannel(Model model, @ModelAttribute @Valid Message message, BindingResult bindingResult) {
+	public String postRequestChannel(Model model, @ModelAttribute @Valid Message message, BindingResult bindingResult, HttpServletRequest request) {
 		System.out.println("postRequestChannel(): message: " + message.toString());
 		if(bindingResult.hasErrors()) {
 			System.out.println("postRequestChannel(): has Error(s): " + bindingResult.getErrorCount());
@@ -49,7 +52,8 @@ public class ChannelsController {
 			return "channel";
 		}
 		// Hack solange es kein authenticated member hat
-		Member tmpMember = memberservice.getById(4L);
+		Principal principal = request.getUserPrincipal();
+		Member tmpMember = memberservice.getByUserName(principal.getName().replace(" ","."));
 		message.setAuthor(tmpMember.getPrename() + " " + tmpMember.getLastname());
 		message.setOrigin(new Date());
 		System.out.println("message: " + message);
