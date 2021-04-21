@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="22c66ffd-02ae-4d68-8234-582836ac2fba" name="main" url="http://stefanhohl.ch">
+        <fileTransfer accessType="SFTP" host="185.170.112.236" port="22" sshConfigId="51a91f15-5b86-46e8-aab3-874bfc82ce3a" sshConfig="main">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
