@@ -80,10 +80,10 @@ public class MemberService implements UserDetailsService {
         Member newMember = new Member();
         newMember.setPrename(member.getPrename());
         newMember.setLastname(member.getLastname());
-
+        String pepper = "pepper";
         BCryptPasswordEncoder bCPE = new BCryptPasswordEncoder(10, new SecureRandom());
 
-        newMember.setPassword(bCPE.encode(member.getPassword()));
+        newMember.setPassword(bCPE.encode(member.getPassword()+pepper));
         newMember.setUsername(member.getPrename().toLowerCase() + "." + member.getLastname().toLowerCase());
         newMember.setAuthority("member");
         for (Member m : repository.findAll()) {

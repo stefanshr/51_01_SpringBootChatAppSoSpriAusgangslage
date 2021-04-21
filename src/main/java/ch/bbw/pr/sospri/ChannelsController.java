@@ -53,7 +53,7 @@ public class ChannelsController {
 		}
 		// Hack solange es kein authenticated member hat
 		Principal principal = request.getUserPrincipal();
-		Member tmpMember = memberservice.getByUserName(principal.getName().replace(" ","."));
+		Member tmpMember = memberservice.getByUserName(principal.getName().replace(" ",".").toLowerCase());
 		message.setAuthor(tmpMember.getPrename() + " " + tmpMember.getLastname());
 		message.setOrigin(new Date());
 		System.out.println("message: " + message);

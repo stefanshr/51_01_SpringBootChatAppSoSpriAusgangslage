@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">>
 
 <head>
 	<title>SoSpri-the-page</title>
@@ -48,6 +48,7 @@
 								<a class="pull-left" href="#"> <img src="img/small-avatar.png" alt="" /></a>
 								<div>
 									<h5><a href="#" th:text="${message.author}"></a></h5>
+
 									<span class="pr_text_green" th:text="${message.origin}"></span>
 									<p th:text="${message.content}"></p>
 								</div>
