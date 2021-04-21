@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:tiles="http://www.thymeleaf.org">
 <head>
     <title>SoSpri-the-page</title>
     <meta charset="utf-8">
@@ -18,8 +18,13 @@
 <body>
 <div id="includedHeader"></div>
 <section>
-    <div class="container">
 
+    <div class="container" style="height: 40vh;margin-top: 10vh">
+        <form th:action="@{/logout}" method="post" >
+        <h1>Logout</h1>
+            <p>If you really want to log out press the button below.</p>
+            <input type="submit" class="btn btn-success btn-send" value="Log Out">
+        </form>
     </div>
 </section>
 <div id="includedFooter"></div>

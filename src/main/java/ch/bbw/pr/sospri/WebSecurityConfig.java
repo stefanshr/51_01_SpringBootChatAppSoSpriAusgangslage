@@ -27,8 +27,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/register-member").permitAll()
                 .antMatchers("/get-register").permitAll()
                 .antMatchers("/home").permitAll()
-                .antMatchers("/css/*").permitAll()
-                .antMatchers("/fragments/*").permitAll()
+                .antMatchers("/index.html").permitAll()
+                .antMatchers("/img/**").permitAll()
+                .antMatchers("/css/**").permitAll()
+                .antMatchers("/fragments/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/login").permitAll()
@@ -36,6 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and().exceptionHandling().accessDeniedPage("/403.html");
+
+        http.csrf().ignoringAntMatchers("/h2-console/**")
+                .and().headers().frameOptions().sameOrigin();
     }
 
 
